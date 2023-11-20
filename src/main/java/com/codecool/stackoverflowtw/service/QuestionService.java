@@ -12,11 +12,17 @@ import java.util.List;
 @Service
 public class QuestionService {
 
+    private final String username;
+    private final String database;
+    private final String password;
     private QuestionsDAO questionsDAO;
 
     @Autowired
     public QuestionService(QuestionsDAO questionsDAO) {
         this.questionsDAO = questionsDAO;
+        this.username = System.getenv("USERNAME");
+        this.database = System.getenv("DATABASE");
+        this.password = System.getenv("PASSWORD");
     }
 
     public List<QuestionDTO> getAllQuestions() {
