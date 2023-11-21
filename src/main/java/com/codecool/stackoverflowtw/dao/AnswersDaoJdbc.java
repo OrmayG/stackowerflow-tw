@@ -146,10 +146,7 @@ public class AnswersDaoJdbc implements AnswersDAO{
 
     @Override
     public AnswerDTO answerDTOBuilder(ResultSet resultSet) {
-        AnswerDTO answer = null;
-
         try {
-            while(resultSet.next()) {
 
                 int answerId = resultSet.getInt("id");
                 String desc = resultSet.getString("description");
@@ -160,13 +157,12 @@ public class AnswersDaoJdbc implements AnswersDAO{
 
                 System.out.println(answerId + desc + answersQuestionId + userId + answerDate + score);
 
-                answer = new AnswerDTO(answerId, desc, answersQuestionId, userId, answerDate, score);
+                return new AnswerDTO(answerId, desc, answersQuestionId, userId, answerDate, score);
 
-            }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return answer;
+        return null;
     }
 }

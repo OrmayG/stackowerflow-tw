@@ -13,7 +13,7 @@ public class Database {
     public Database() {
         this.userName = System.getenv("USERNAME");
         this.password = System.getenv("PASSWORD");
-        this.dbName = System.getenv("DATABASE");
+        this.dbName = "mockoverflow_db";
         this.URL = "jdbc:postgresql://localhost:5432/" + dbName;
     }
 
