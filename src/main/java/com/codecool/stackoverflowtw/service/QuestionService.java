@@ -12,28 +12,23 @@ import java.util.List;
 @Service
 public class QuestionService {
 
-    private final String username;
-    private final String database;
-    private final String password;
     private QuestionsDAO questionsDAO;
 
     @Autowired
     public QuestionService(QuestionsDAO questionsDAO) {
         this.questionsDAO = questionsDAO;
-        this.username = System.getenv("USERNAME");
-        this.database = System.getenv("DATABASE");
-        this.password = System.getenv("PASSWORD");
+
     }
 
     public List<QuestionDTO> getAllQuestions() {
         // TODO
-        return List.of(new QuestionDTO(1, "example title", "example desc", LocalDateTime.now()));
+        return questionsDAO.getAll();
     }
 
-    public QuestionDTO getQuestionById(int id) {
+    public
+    QuestionDTO getQuestionById(int id) {
         // TODO
-        questionsDAO.sayHi();
-        return new QuestionDTO(id, "example title", "example desc", LocalDateTime.now());
+        return questionsDAO.getById(id);
     }
 
     public boolean deleteQuestionById(int id) {
@@ -43,7 +38,7 @@ public class QuestionService {
 
     public int addNewQuestion(NewQuestionDTO question) {
         // TODO
-        int createdId = 0;
-        return createdId;
+        LocalDateTime createdId = LocalDateTime.now();
+        return 0;
     }
 }

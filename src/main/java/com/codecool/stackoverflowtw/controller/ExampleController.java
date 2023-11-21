@@ -13,12 +13,16 @@ public class ExampleController {
 
     @GetMapping
     public String index(Model model) {
-        model.addAttribute("name", "Example name");
-        return "index";
+        String html = "<p>hello there!</p>";
+
+        model.addAttribute("questions", "hello");
+        return "all";
     }
 
     @GetMapping("/path/{name}")
     public String exampleWithPathVariable(@PathVariable String name, Model model) {
+
+
         model.addAttribute("name", name);
         return "index";
     }
