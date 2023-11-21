@@ -1,6 +1,7 @@
 package com.codecool.stackoverflowtw.dao;
 
 import com.codecool.stackoverflowtw.controller.dto.AnswerDTO;
+import com.codecool.stackoverflowtw.controller.dto.NewAnswerDTO;
 import com.codecool.stackoverflowtw.database.Database;
 
 import java.sql.*;
@@ -80,11 +81,12 @@ public class AnswersDaoJdbc implements AnswersDAO{
 
     @Override
     public boolean updateAnswerDescription(int answerId, String newDescription) {
-        String sql = "UPDATE answers SET description = ?";
+        String sql = "UPDATE answers SET description = ? WHERE id = ?";
 
         try (Connection conn = databaseConn.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
             preparedStatement.setString(1, newDescription);
+            preparedStatement.setInt(2, answerId);
             preparedStatement.executeUpdate();
 
             return true;
@@ -93,23 +95,43 @@ public class AnswersDaoJdbc implements AnswersDAO{
             System.out.println(e.getMessage());
         }
 
-
         return false;
     }
 
     @Override
-    public boolean createAnswer(AnswerDTO answerDTO) {
-        String sql = "INSERT INTO answers(id, description, question_id, user_id, answer_date, score) " +
-                "values(?, ?, ?, ?, ?, ?)";
+    public boolean updateScore(int answerId, int newScore){
+        String sql = "UPDATE answers SET score = ? WHERE id = ?";
 
         try (Connection conn = databaseConn.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 
-            preparedStatement.setInt(1, answerDTO.id());
-            preparedStatement.setString(2, answerDTO.description());
-            preparedStatement.setInt(3, answerDTO.questionId());
-            preparedStatement.setInt(4, answerDTO.userId());
-            preparedStatement.setTimestamp(5, Timestamp.valueOf(answerDTO.answerDate()));
-            preparedStatement.setInt(6, answerDTO.score());
+            preparedStatement.setInt(1, newScore);
+            preparedStatement.setInt(2, answerId);
+            preparedStatement.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+
+    }
+
+    @Override
+    public boolean createAnswer(NewAnswerDTO answerDTO) {
+        String sql = "INSERT INTO answers(description, question_id, user_id, answer_date, score) " +
+                "values(?, ?, ?, ?, ?)";
+
+
+        try (Connection conn = databaseConn.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            int initScore = 0;
+
+            preparedStatement.setString(1, answerDTO.description());
+            preparedStatement.setInt(2, answerDTO.questionId());
+            preparedStatement.setInt(3, answerDTO.userId());
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setInt(5, initScore);
 
             preparedStatement.executeUpdate();
 
