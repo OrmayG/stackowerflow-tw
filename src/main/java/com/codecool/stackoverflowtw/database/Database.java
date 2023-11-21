@@ -5,20 +5,22 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Database {
-    private final String url;
-    private final String username;
+    private final String userName;
     private final String password;
+    private final String dbName;
+    private final String URL;
 
-    public Database(String url, String username, String password) {
-        this.url = url;
-        this.username = username;
-        this.password = password;
+    public Database() {
+        this.userName = System.getenv("USERNAME");
+        this.password = System.getenv("PASSWORD");
+        this.dbName = System.getenv("DATABASE");
+        this.URL = "jdbc:postgresql://localhost:5432/" + dbName;
     }
 
 
     public Connection getConnection() {
         try {
-            return DriverManager.getConnection(url, username, password);
+            return DriverManager.getConnection(URL, userName, password);
         } catch (SQLException ex) {
             System.err.println("Could not create database connection.");
             throw new RuntimeException(ex);

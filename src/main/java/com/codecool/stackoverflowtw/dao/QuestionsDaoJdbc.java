@@ -10,11 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionsDaoJdbc implements QuestionsDAO {
-    String userName = System.getenv("USERNAME");
-    String password = System.getenv("PASSWORD");
-    String dbName = System.getenv("DATABASE");
-    String URL = "jdbc:postgresql://localhost:5432/" + dbName;
-    Database database = new Database(URL, userName, password);
+
+    Database database = new Database();
 
     private Connection getConnection(){
         return database.getConnection();
